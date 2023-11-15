@@ -1,3 +1,5 @@
 # vlsidesign
 
-CRC/ contains example CRC
+`CRC/` содержит пример CRC
+
+`script/` содержит примеры скриптов для синтеза
