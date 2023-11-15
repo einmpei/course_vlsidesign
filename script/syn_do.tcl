@@ -1,3 +1,9 @@
+set REPORTS_PATH ./reports
+set OUTPUTS_PATH ./output
+set SYN_EFF high
+set MAP_EFF high
+
+elaborate
 ########################################
 ##Synthesize the design to generic gates
 ########################################
@@ -6,6 +12,7 @@ puts "Runtime & Memory after 'synthesize -to_generic'"
 timestat GENERIC
 report datapath > ${REPORTS_PATH}/${DESIGN}_datapath_generic.rpt
 ##Synthesizing to gates
+
 ########################################
 #Synthesize to gate level netlist with the given
 #technology library (without optimization)
@@ -18,6 +25,7 @@ report datapath > ${REPORTS_PATH}/${DESIGN}_datapath_map.rpt
 write_hdl -lec > ${OUTPUTS_PATH}/${DESIGN}_intermediate.v
 write_do_lec -revised_design ${OUTPUTS_PATH}/${DESIGN}_intermediate.v > ./wlec_rtltog1_dofile
 ##ungroup -threshold <value>
+
 ########################################
 #Incremental synthesis
 ########################################
@@ -28,6 +36,7 @@ puts "Runtime & Memory after incremental synthesis"
 timestat INCREMENTAL
 write_design -basename ${OUTPUTS_PATH}/${DESIGN}_m
 write_sdc > ${OUTPUTS_PATH}/${DESIGN}_m.sdc
+
 ########################################
 #write_do_lec
 ########################################
