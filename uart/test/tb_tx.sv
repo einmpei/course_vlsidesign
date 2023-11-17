@@ -8,9 +8,8 @@
 //
 
 `timescale 1ns/1ns
-`define WAVES_FILE "./work/waves-tx.vcd"
 
-module tb;
+module tb_tx;
     
 logic       clk         ; // Top level system clock input.
 logic       resetn      ;
@@ -57,9 +56,6 @@ initial begin
     clk     = 1'b0;
     #40 resetn = 1'b1;
     
-    $dumpfile(`WAVES_FILE);
-    $dumpvars(0,tb);
-
     repeat(20) begin
         to_send = $random;
         send_byte(to_send);

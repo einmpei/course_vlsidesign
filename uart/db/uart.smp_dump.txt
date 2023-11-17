@@ -1,0 +1,7 @@
+
+State Machine - |uart_rx|fsm_state
+Name fsm_state.FSM_STOP fsm_state.FSM_RECV fsm_state.FSM_START fsm_state.FSM_IDLE 
+fsm_state.FSM_IDLE 0 0 0 0 
+fsm_state.FSM_START 0 0 1 1 
+fsm_state.FSM_RECV 0 1 0 1 
+fsm_state.FSM_STOP 1 0 0 1 

@@ -1,19 +1,13 @@
 
 
-// origin from https://github.com/ben-marshall/uart/
+// from https://github.com/ben-marshall/uart/
 // Module: uart_tx 
 // 
 // Notes:
 // - UART transmitter module.
 //
 
-module uart_tx
-#(parameter BIT_RATE = 9600,
-			CLK_HZ = 50_000_000,
-			PAYLOAD_BITS    = 8,
-			STOP_BITS       = 1
-)
-(
+module uart_tx(
 input  logic         clk         , // Top level system clock input.
 input  logic         resetn      , // Asynchronous active low reset.
 output logic         uart_txd    , // UART transmit pin.
@@ -28,18 +22,21 @@ input  logic [PAYLOAD_BITS-1:0]   uart_tx_data  // The data to be sent
 
 //
 // Input bit rate of the UART line.
+parameter   BIT_RATE        = 9600; // bits / sec
 localparam  BIT_P           = 1_000_000_000 * 1/BIT_RATE; // nanoseconds
 
 //
 // Clock frequency in hertz.
+parameter   CLK_HZ          =    50_000_000;
 localparam  CLK_P           = 1_000_000_000 * 1/CLK_HZ; // period in nanoseconds
 
 //
 // Number of data bits recieved per UART packet.
-
+parameter   PAYLOAD_BITS    = 8;
 
 //
 // Number of stop bits indicating the end of a packet.
+parameter   STOP_BITS       = 1;
 
 // --------------------------------------------------------------------------- 
 // Internal parameters.
@@ -72,11 +69,11 @@ logic [COUNT_REG_LEN-1:0] cycle_counter;
 
 //
 // Counter for the number of sent bits of the packet.
-logic [COUNT_REG_LEN-1:0] bit_counter;
+logic [3:0] bit_counter;
 
 //
 // Current and next states of the internal FSM.
-typedef enum logic [1:0] {FSM_IDLE = 2'b00, FSM_START, FSM_SEND, FSM_STOP} state_t;
+typedef enum logic [2:0] {FSM_IDLE = 0, FSM_START, FSM_SEND, FSM_STOP} state_t;
 
 state_t fsm_state, n_fsm_state;
 
@@ -88,13 +85,9 @@ state_t fsm_state, n_fsm_state;
 assign uart_tx_busy = (fsm_state != FSM_IDLE);
 assign uart_txd     = txd_reg;
 
-logic next_bit;
-logic payload_done;
-logic stop_done;
-
-assign next_bit     = (cycle_counter == CYCLES_PER_BIT);
-assign payload_done = (bit_counter   == PAYLOAD_BITS)  ;
-assign stop_done    = ((bit_counter   == STOP_BITS) && (fsm_state == FSM_STOP));
+logic next_bit     = (cycle_counter == CYCLES_PER_BIT);
+logic payload_done = (bit_counter   == PAYLOAD_BITS)  ;
+logic stop_done    = ((bit_counter   == STOP_BITS) && (fsm_state == FSM_STOP));
 
 //
 // Handle picking the next state.
@@ -131,7 +124,7 @@ end
 // Increments the bit counter each time a new bit frame is sent.
 always_ff @(posedge clk) begin : p_bit_counter
     if(!resetn) begin
-        bit_counter <= {COUNT_REG_LEN{1'b0}};
+        bit_counter <= 4'b0;
     end else if((fsm_state != FSM_SEND) && (fsm_state != FSM_STOP)) begin
         bit_counter <= {COUNT_REG_LEN{1'b0}};
     end else if((fsm_state == FSM_SEND) && (n_fsm_state == FSM_STOP)) begin

@@ -1,0 +1,65 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "uart_rx_break",
+					"strict" : false
+				},
+				{
+					"name" : "uart_rx_valid",
+					"strict" : false
+				},
+				{
+					"name" : "uart_rx_data[0]",
+					"strict" : false
+				},
+				{
+					"name" : "uart_rx_data[1]",
+					"strict" : false
+				},
+				{
+					"name" : "uart_rx_data[2]",
+					"strict" : false
+				},
+				{
+					"name" : "uart_rx_data[3]",
+					"strict" : false
+				},
+				{
+					"name" : "uart_rx_data[4]",
+					"strict" : false
+				},
+				{
+					"name" : "uart_rx_data[5]",
+					"strict" : false
+				},
+				{
+					"name" : "uart_rx_data[6]",
+					"strict" : false
+				},
+				{
+					"name" : "uart_rx_data[7]",
+					"strict" : false
+				},
+				{
+					"name" : "clk",
+					"strict" : false
+				},
+				{
+					"name" : "resetn",
+					"strict" : false
+				},
+				{
+					"name" : "uart_rx_en",
+					"strict" : false
+				},
+				{
+					"name" : "uart_rxd",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

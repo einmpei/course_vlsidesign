@@ -6,7 +6,14 @@
 // - UART reciever module.
 //
 
-module uart_rx(
+module uart_rx
+#(
+    parameter BIT_RATE        = 9600,
+              CLK_HZ          =    50_000_000,
+              PAYLOAD_BITS    = 8,
+              STOP_BITS       = 1
+)
+(
 input  logic       clk          , // Top level system clock input.
 input  logic       resetn       , // Asynchronous active low reset.
 input  logic       uart_rxd     , // UART Recieve pin.
@@ -22,21 +29,19 @@ output logic [PAYLOAD_BITS-1:0] uart_rx_data   // The recieved data.
 
 //
 // Input bit rate of the UART line.
-parameter   BIT_RATE        = 9600; // bits / sec
 localparam  BIT_P           = 1_000_000_000 * 1/BIT_RATE; // nanoseconds
 
 //
 // Clock frequency in hertz.
-parameter   CLK_HZ          =    50_000_000;
 localparam  CLK_P           = 1_000_000_000 * 1/CLK_HZ; // period in nanoseconds
 
 //
 // Number of data bits recieved per UART packet.
-parameter   PAYLOAD_BITS    = 8;
+
 
 //
 // Number of stop bits indicating the end of a packet.
-parameter   STOP_BITS       = 1;
+
 
 // -------------------------------------------------------------------------- 
 // Internal parameters.
@@ -70,7 +75,7 @@ logic [COUNT_REG_LEN-1:0] cycle_counter;
 
 //
 // Counter for the number of recieved bits of the packet.
-logic [3:0] bit_counter;
+logic [$clog2(COUNT_REG_LEN)-1:0] bit_counter;
 
 //
 // Sample of the UART input line whenever we are in the middle of a bit frame.
@@ -78,13 +83,8 @@ logic bit_sample;
 
 //
 // Current and next states of the internal FSM.
-logic [2:0] fsm_state;
-logic [2:0] n_fsm_state;
-
-localparam FSM_IDLE = 0;
-localparam FSM_START= 1;
-localparam FSM_RECV = 2;
-localparam FSM_STOP = 3;
+typedef enum logic [1:0] {FSM_IDLE = 2'b00, FSM_START, FSM_RECV, FSM_STOP } state_t;
+state_t fsm_state, n_fsm_state;
 
 // --------------------------------------------------------------------------- 
 // Output assignment
@@ -105,16 +105,19 @@ end
 // FSM next state selection.
 // 
 
-logic next_bit     = ((cycle_counter == CYCLES_PER_BIT) ||
+logic next_bit;
+logic payload_done;
+
+assign next_bit = ((cycle_counter == CYCLES_PER_BIT) ||
                     (fsm_state       == FSM_STOP) && 
                     (cycle_counter   == CYCLES_PER_BIT/2));
-logic payload_done = (bit_counter   == PAYLOAD_BITS)  ;
+assign payload_done = (bit_counter   == PAYLOAD_BITS)  ;
 
 //
 // Handle picking the next state.
 always_comb begin : p_n_fsm_state
     case(fsm_state)
-        FSM_IDLE : n_fsm_state = rxd_logic    ? FSM_IDLE : FSM_START;
+        FSM_IDLE : n_fsm_state = rxd_reg    ? FSM_IDLE : FSM_START;
         FSM_START: n_fsm_state = next_bit     ? FSM_RECV : FSM_START;
         FSM_RECV : n_fsm_state = payload_done ? FSM_STOP : FSM_RECV ;
         FSM_STOP : n_fsm_state = next_bit     ? FSM_IDLE : FSM_STOP ;
@@ -128,7 +131,6 @@ end
 
 //
 // Handle updates to the recieved data register.
-int i = 0;
 always_ff @(posedge clk) begin : p_recieved_data
     if(!resetn) begin
         recieved_data <= {PAYLOAD_BITS{1'b0}};
@@ -136,7 +138,7 @@ always_ff @(posedge clk) begin : p_recieved_data
         recieved_data <= {PAYLOAD_BITS{1'b0}};
     end else if(fsm_state == FSM_RECV && next_bit ) begin
         recieved_data[PAYLOAD_BITS-1] <= bit_sample;
-        for ( i = PAYLOAD_BITS-2; i >= 0; i = i - 1) begin
+        for ( int i = PAYLOAD_BITS-2; i >= 0; i--) begin
             recieved_data[i] <= recieved_data[i+1];
         end
     end
@@ -146,7 +148,7 @@ end
 // Increments the bit counter when recieving.
 always_ff @(posedge clk) begin : p_bit_counter
     if(!resetn) begin
-        bit_counter <= 4'b0;
+        bit_counter <= {COUNT_REG_LEN{1'b0}};
     end else if(fsm_state != FSM_RECV) begin
         bit_counter <= {COUNT_REG_LEN{1'b0}};
     end else if(fsm_state == FSM_RECV && next_bit) begin
@@ -195,10 +197,10 @@ end
 // Responsible for updating the internal value of the rxd_reg.
 always_ff @(posedge clk) begin : p_rxd_reg
     if(!resetn) begin
-        rxd_logic   <= 1'b1;
+        rxd_reg   <= 1'b1;
         rxd_reg_0   <= 1'b1;
     end else if(uart_rx_en) begin
-        rxd_logic   <= rxd_reg_0;
+        rxd_reg   <= rxd_reg_0;
         rxd_reg_0   <= uart_rxd;
     end
 end
