@@ -1,0 +1,12 @@
+*.swp
+*~
+*.vcd
+*.vim
+
+sim.bin
+
+work/
+__pycache__/
+xilinx/
+.Xil/
+vivado*
