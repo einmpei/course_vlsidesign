@@ -1,0 +1,7 @@
+**/*.qpf
+**/*.qsf
+**/*.rpt
+**/db
+**/simulation
+**/incremental_db
+**/*.bak
