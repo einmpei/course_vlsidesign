@@ -3,17 +3,17 @@
 import serial
 import threading
 
-port = "/dev/ttyUSB1"
-tosend = b'b'
+port = "/dev/ttyS0"
+baudrate = 9600
+message = b'Hello, World!'
 
 print ("Opening %s" % port)
-with serial.Serial(port, timeout=2) as ser:
+ser = serial.Serial(port, baudrate = baudrate, parity = 'N', timeout = 2, bytesize=8, stopbits=1, rtscts=False, xonxoff=False)
     
-    for i in tosend:
-        print("Sending %s" % i)
-        ser.write(i)
+for i in message:
+    print("Sending %s" % i)
+    ser.write(i)
 
-    ret = ser.read(400)
-    
-    print("Got back:")
-    print(ret)
+if ser.is_open:
+    ser.close()
+    print("Serial connection closed.")
