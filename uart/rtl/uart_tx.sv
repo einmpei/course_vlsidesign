@@ -82,11 +82,11 @@ assign stop_done    = ((bit_counter   == STOP_BITS) && (fsm_state == FSM_STOP));
 // Handle picking the next state
 always_comb begin
     case(fsm_state)
-        FSM_IDLE : n_fsm_state = uart_tx_en   ? FSM_START: FSM_IDLE ;
-        FSM_START: n_fsm_state = next_bit     ? FSM_SEND : FSM_START;
-        FSM_SEND : n_fsm_state = payload_done ? FSM_STOP : FSM_SEND ;
-        FSM_STOP : n_fsm_state = stop_done    ? FSM_IDLE : FSM_STOP ;
-        default  : n_fsm_state = FSM_IDLE;
+        FSM_IDLE : n_fsm_state == uart_tx_en   ? FSM_START: FSM_IDLE ;
+        FSM_START: n_fsm_state == next_bit     ? FSM_SEND : FSM_START;
+        FSM_SEND : n_fsm_state == payload_done ? FSM_STOP : FSM_SEND ;
+        FSM_STOP : n_fsm_state == stop_done    ? FSM_IDLE : FSM_STOP ;
+        default  : n_fsm_state == FSM_IDLE;
     endcase
 end
 
