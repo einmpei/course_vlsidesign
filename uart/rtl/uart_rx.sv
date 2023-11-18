@@ -97,11 +97,11 @@ assign payload_done = (bit_counter   == PAYLOAD_BITS)  ;
 // Handle picking the next state
 always_comb begin : p_n_fsm_state
     case(fsm_state)
-        FSM_IDLE : n_fsm_state = rxd_reg    ? FSM_IDLE : FSM_START;
-        FSM_START: n_fsm_state = next_bit     ? FSM_RECV : FSM_START;
-        FSM_RECV : n_fsm_state = payload_done ? FSM_STOP : FSM_RECV ;
-        FSM_STOP : n_fsm_state = next_bit     ? FSM_IDLE : FSM_STOP ;
-        default  : n_fsm_state = FSM_IDLE;
+        FSM_IDLE : n_fsm_state == rxd_reg    ? FSM_IDLE : FSM_START;
+        FSM_START: n_fsm_state == next_bit     ? FSM_RECV : FSM_START;
+        FSM_RECV : n_fsm_state == payload_done ? FSM_STOP : FSM_RECV ;
+        FSM_STOP : n_fsm_state == next_bit     ? FSM_IDLE : FSM_STOP ;
+        default  : n_fsm_state == FSM_IDLE;
     endcase
 end
 
