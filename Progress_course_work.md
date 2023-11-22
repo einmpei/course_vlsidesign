@@ -4,15 +4,13 @@
 
 ### Прогресс работы
 
-| № | Студент | RTL, проектирование и верификация | Genus, синтез в generic и верификация | Genus, синтез в mapped и верификация | LEC |
-Innovus, проектирование топологии без контактных площадок |
-Virtuoso, импорт DEF-файла | Virtuoso, проверка DRC, ERC, LVS, antenna | Virtuoso, экстракция паразитных параметров | Virtuoso, моделирование в Spectre |
-|---|---|---|---|---|---|---|---|---|---|---|
-|1. | Алисов И.К.     | [X] | [X] | [X] | [X] | [X] | [] | [] | [] | [] |
-|2. | Аринушкин Д.Д.  | [X] | [X] | [X] | [X] | [X] | [] | [] | [] | [] |
-|3. | Бабаев М.С.     | [X] | [X] | [X] | [X] | [X] | [] | [] | [] | [] |
-|4. | Герасимов Б.А.  | [X] | [X] | [X] | [X] | [X] | [] | [] | [] | [] |
-|5. | Иванов А.А.     | [X] | [X] | [X] | [X] | [X] | [] | [] | [] | [] |
-|6. | Кравченков А.А. | [X] | [X] | [X] | [ ] | [X] | [] | [] | [] | [] |
-|7. | Кривоносов В.А. | [X] | [X] | [X] | [X] | [X] | [] | [] | [] | [] |
-|8. | Макарук К.С.    | [X] | [X] | [X] | [X] | [X] | [] | [] | [] | [] |
+| № | Студент | Текущий статус | RTL, проектирование и верификация | Genus, синтез в generic и верификация | Genus, синтез в mapped и верификация | LEC | Innovus, проектирование топологии без контактных площадок | Virtuoso, импорт DEF-файла | Virtuoso, проверка DRC, ERC, LVS, antenna | Virtuoso, экстракция паразитных параметров | Virtuoso, моделирование в Spectre |
+|---|-|---|---|---|---|---|---|---|---|---|---|
+|1. | Алисов И.К.     | В работе | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |  |  |  |  |
+|2. | Аринушкин Д.Д.  | В работе | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |  |  |  |  |
+|3. | Бабаев М.С.     | В работе | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |  |  |  |  |
+|4. | Герасимов Б.А.  | В работе | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |  |  |  |  |
+|5. | Иванов А.А.     | В работе | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |  |  |  |  |
+|6. | Кравченков А.А. | В работе | :heavy_check_mark: | :heavy_check_mark: |  | :heavy_check_mark: | :heavy_check_mark: |  |  |  |  |
+|7. | Кривоносов В.А. | В работе | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |  |  |  |  |
+|8. | Макарук К.С.    | В работе | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |  |  |  |  |
