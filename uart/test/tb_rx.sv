@@ -1,9 +1,9 @@
 
 
 // 
-// Module: tb
+//Моульe: tb
 // 
-// Notes:
+// Примечание:
 // - Top level simulation testbench.
 //
 
@@ -12,44 +12,40 @@
 
 module tb;
     
-logic       clk          ; // Top level system clock input.
-logic       resetn       ;
-logic       uart_rxd     ; // UART Recieve pin.
+logic       clk          ; // Системный синхросигнал
+logic       resetn       ; // Глобальный сброс
+logic       uart_rxd     ; // Пин принимаемых UART данных
 
-logic       uart_rx_en   ; // Recieve enable
+logic       uart_rx_en   ; // Передача разрешающего сигнала
 logic       uart_rx_break; // Did we get a BREAK message?
-logic       uart_rx_valid; // Valid data recieved and available.
-logic [7:0] uart_rx_data ; // The recieved data.
+logic       uart_rx_valid; // Валидность и доступность принятых данных
+    logic [7:0] uart_rx_data ; // Принятые данные
 
 //
-// Bit rate of the UART line we are testing.
-localparam BIT_RATE = 115200;
-localparam BIT_P    = (1000000000/BIT_RATE);
+// Скорость передачи данных UART в тесте
+    localparam BIT_RATE = 115200; // поменять на 9600, если исходный мдуль синтезируется (например в Quartus)
+    localparam BIT_P    = (1_000_000_000 /BIT_RATE);
 
 //
-// Period and frequency of the system clock.
-localparam CLK_HZ   = 50000000;
-localparam CLK_P    = 1000000000/ CLK_HZ;
+// Задание периода и частоты системного тактового сигнала
+localparam CLK_HZ   = 50_000_000;
+localparam CLK_P    = 1_000_000_000 / CLK_HZ;
 
 
 //
-// Make the clock tick.
+// Определение тактового сигнала
 always begin #(CLK_P/2) assign clk    = ~clk; end
 
 
 //
-// Sends a single byte down the UART line.
+// Отправка одиночного байта данных по UART
 task send_byte;
     input [7:0] to_send;
     int i;
     begin
-        //$display("Sending byte: %d at time %d", to_send, $time);
-
         #BIT_P;  uart_rxd = 1'b0;
         for(i=0; i < 8; i++) begin
             #BIT_P;  uart_rxd = to_send[i];
-
-            //$display("    Bit: %d at time %d", i, $time);
         end
         #BIT_P;  uart_rxd = 1'b1;
         #1000;
@@ -57,7 +53,7 @@ task send_byte;
 endtask
 
 //
-// Checks that the output of the UART is the value we expect.
+    // Проверка того, что принятые UART данные соответствуют передаваемым (ожидаемым)
 int passes = 0;
 int fails  = 0;
 task check_byte;
@@ -78,7 +74,7 @@ task check_byte;
 endtask
 
 //
-// Run the test sequence.
+// Запуск теста
 logic [7:0] to_send;
 initial begin
     resetn  = 1'b0;
@@ -114,7 +110,7 @@ end
 
 
 //
-// Instance of the DUT
+// Экземпляр тестируемого устройства
 uart_rx #(
 .BIT_RATE(BIT_RATE),
 .CLK_HZ  (CLK_HZ  )
