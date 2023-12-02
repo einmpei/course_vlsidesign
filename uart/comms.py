@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 
 import serial
-import threading
 
-port = "/dev/ttyS0"
+port = "/dev/ttyUSB0"
 baudrate = 9600
 message = b'Hello, World!'
 
