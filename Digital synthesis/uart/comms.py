@@ -11,14 +11,14 @@ import serial
 
 port = "/dev/ttyUSB0" #имя порта, в Windows это может быть COM1
 baudrate = 9600 #бод
-message = b'Hello, World!' #Передаваемое сообщение в бинарном формате
+#message = b'Hello, World!' #Передаваемое сообщение в бинарном формате
+message = bytearray(chr(0b00111010), "utf-8") #Передаём ASCII символ в бинарном формате
 
 print ("Opening %s" % port)
 ser = serial.Serial(port, baudrate = baudrate, parity = 'N', timeout = 2, bytesize=8, stopbits=1, rtscts=False, xonxoff=False)
-    
-for i in message:
-    print("Sending %s" % i)
-    ser.write(i)
+
+print("Sending %s" %message)
+ser.write(message)
 
 if ser.is_open:
     ser.close()
