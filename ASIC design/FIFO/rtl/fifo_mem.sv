@@ -1,6 +1,6 @@
 // За основу всего RTL взят код https://github.com/dpretet/async_fifo/
 
-module fifomem
+module fifo_mem
     #(
         parameter  DATASIZE = 8,    // Ширина слова
         parameter  ADDRSIZE = 4    // Количество бит адреса
