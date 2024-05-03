@@ -1,3 +1,5 @@
+// За основу всего RTL взят код https://github.com/dpretet/async_fifo/
+
 module fifomem
     #(
         parameter  DATASIZE = 8,    // Ширина слова
