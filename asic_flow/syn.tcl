@@ -1,9 +1,11 @@
 #Указание выходной директории
 set OUTPUT_DIR ./outputs
 #Задание имени модуля верхнего уровня
-set $DESIGN top
+set DESIGN top
 #Указание папки, в которой лежат lib- и lef-файлы
-set $LIBRARY_LOCATION ../library
+set LIBRARY_LOCATION ../library
+#Указание файла с временными ограничениями
+set CONSTRAINTS ./constraints.sdc
 #Установка пути к библиотекам
 set_attribute init_lib_search_path $LIBRARY_LOCATION
 
@@ -20,6 +22,9 @@ read_hdl $DESIGN.sv
 
 puts "\n\n\n Подготовка дизайна \n\n\n"
 elaborate
+
+puts "\n\n\n Загрузка временных ограничений \n\n\n"
+source $CONSTRAINTS
 
 puts "\n\n\n Синтез на Verilog-примитивах \n\n\n"
 syn_generic
