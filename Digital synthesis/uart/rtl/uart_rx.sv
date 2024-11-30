@@ -96,10 +96,10 @@ assign payload_done = (bit_counter   == PAYLOAD_BITS)  ;
 // Логика выбора следующего состояния
 always_comb begin : p_n_fsm_state
     case (fsm_state)
-        FSM_IDLE : n_fsm_state = (rxd_reg      ? FSM_IDLE : FSM_START);
-        FSM_START: n_fsm_state = (next_bit     ? FSM_RECV : FSM_START);
-        FSM_RECV : n_fsm_state = (payload_done ? FSM_STOP : FSM_RECV );
-        FSM_STOP : n_fsm_state = (next_bit     ? FSM_IDLE : FSM_STOP );
+        FSM_IDLE : n_fsm_state = (rxd_reg == 2'b10 ? FSM_IDLE : FSM_START);
+        FSM_START: n_fsm_state = (next_bit         ? FSM_RECV : FSM_START);
+        FSM_RECV : n_fsm_state = (payload_done     ? FSM_STOP : FSM_RECV );
+        FSM_STOP : n_fsm_state = (next_bit         ? FSM_IDLE : FSM_STOP );
         default  : n_fsm_state = FSM_IDLE;
     endcase
 end
@@ -138,7 +138,7 @@ always_ff @(posedge clk) begin : p_bit_sample
     if (!resetn) begin
         bit_sample <= 1'b0;
     end else if (cycle_counter == CYCLES_PER_BIT/2) begin
-        bit_sample <= rxd_reg;
+        bit_sample <= rxd_reg[0];
     end
 end
 
