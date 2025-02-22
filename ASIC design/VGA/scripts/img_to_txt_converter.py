@@ -11,7 +11,7 @@ def adjust_rgb(value):
 
 # Input and output folder paths
 input_folder = "images"
-output_folder = "converted images"
+output_folder = "converted_images"
 
 # Ensure the output folder exists
 if not os.path.exists(output_folder):
