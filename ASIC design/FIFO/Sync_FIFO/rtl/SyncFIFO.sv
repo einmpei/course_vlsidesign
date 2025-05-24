@@ -23,8 +23,8 @@ logic                [$clog2(DEPTH)-1 : 0]  rptr; // Write address pointer
 
 logic                [$clog2(DEPTH)-1 : 0]  usedwd; // Count FIFO's words
 
-always_ff @(posedge clk) begin : FIFO_memory
-    if (!nrst) begin : FIFO_init
+    always_ff @(posedge clk) begin : FIFO_init_write_read
+    if (!nrst) begin
         for (int i = 0; i < DEPTH; i++) begin
            fifo_mem[i] <= '0;
         end
@@ -32,11 +32,11 @@ always_ff @(posedge clk) begin : FIFO_memory
         rptr <= 1'b0;
     end
     else begin
-        if (wr_en && ready) begin : Write
+        if (wr_en && ready) begin
             fifo_mem[wptr]  <= data_in;
             wptr            <= wptr + 1'b1;
         end
-        if (rd_en && valid) begin : Read
+        if (rd_en && valid) begin
             data_out        <= fifo_mem[rptr];
             rptr            <= rptr + 1'b1;
         end
