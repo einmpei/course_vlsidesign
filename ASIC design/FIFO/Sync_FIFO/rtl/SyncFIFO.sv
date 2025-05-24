@@ -51,8 +51,8 @@ always_ff @( posedge clk ) begin : cnt_word
     end
 end
 
-assign full  = (usedwd == DEPTH) ? 1'b1 : 1'b0;
-assign empty = (usedwd == 0) ? 1'b1 : 1'b0;
+assign full  = (usedwd == DEPTH);
+assign empty = (usedwd == 0);
 
 assign valid = ~empty;
 assign ready = ~full;
