@@ -18,7 +18,7 @@ wire                                full; // FIFO is full
 wire                                empty; // FIFO is empty
 
 logic                [WIDTH-1 : 0]          fifo_mem [DEPTH]; // FIFO memory
-logic                [$clog2(DEPTH)-1 : 0]  wptr; // Read addreess pointer
+logic                [$clog2(DEPTH)-1 : 0]  wptr; // Read address pointer
 logic                [$clog2(DEPTH)-1 : 0]  rptr; // Write address pointer
 
 logic                [$clog2(DEPTH)-1 : 0]  usedwd; // Count FIFO's words
@@ -47,11 +47,11 @@ always_ff @( posedge clk ) begin : cnt_word
     if (!nrst) begin
         usedwd <= '0;
     end else begin
-        usedwd <= (wptr > rptr) ? (wptr - rptr) : (rptr - wptr);
+        usedwd <= (wptr > rptr) ? (wptr - rptr) : (DEPTH - (rptr - wptr));
     end
 end
 
-assign full  = (usedwd == DEPTH);
+assign full  = (usedwd == DEPTH-1);
 assign empty = (usedwd == 0);
 
 assign valid = ~empty;
