@@ -47,7 +47,7 @@ always_ff @( posedge clk ) begin : cnt_word
     if (!nrst) begin
         usedwd <= '0;
     end else begin
-        usedwd <= (wptr > rpt) ? (wptr - rptr) : (rptr - wptr);
+        usedwd <= (wptr > rptr) ? (wptr - rptr) : (rptr - wptr);
     end
 end
 
