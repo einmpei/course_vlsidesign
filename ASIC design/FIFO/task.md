@@ -1,6 +1,6 @@
 # Задание по теме "FIFO-буфер"
 
-Коды для [синхронного SCFIFO](https://github.com/einmpei/course_vlsidesign/tree/main/ASIC%20design/Sync_FIFO/rtl) и [асинхронного DCFIFO](https://github.com/einmpei/course_vlsidesign/tree/main/ASIC%20design/Async_FIFO/rtl) FIFO-буфера.
+Коды для [синхронного SCFIFO](https://github.com/einmpei/course_vlsidesign/tree/main/ASIC%20design/FIFO/Sync_FIFO/rtl) и [асинхронного DCFIFO](https://github.com/einmpei/course_vlsidesign/tree/main/ASIC%20design/FIFO/Async_FIFO/rtl) FIFO-буфера.
 
 Сформируйте топ-модуль.
 
